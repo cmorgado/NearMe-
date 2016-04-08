@@ -1,0 +1,19 @@
+﻿<Page x:Class="NearMe.Views.About"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+      xmlns:local="using:NearMe.Views"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      DataContext="{Binding About,
+                            Source={StaticResource Locator}}"
+      mc:Ignorable="d">
+    <interactivity:Interaction.Behaviors>
+        <core:EventTriggerBehavior EventName="Loaded">
+            <core:InvokeCommandAction Command="{Binding Load}" />
+        </core:EventTriggerBehavior>
+    </interactivity:Interaction.Behaviors>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" />
+</Page>
+

@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>relrt</Title>
+      <Author>Cristovao Morgado</Author>
+      <Description>Code snippet for an automatically implemented Relaycommands
+						Language Version: C# 4.5 or higher</Description>
+      <HelpUrl>
+      </HelpUrl>
+      <Shortcut>relrt</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="true">
+          <ID>type</ID>
+          <ToolTip>Property type</ToolTip>
+          <Default>string</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>property</ID>
+          <ToolTip>Property name</ToolTip>
+          <Default>MyProperty</Default>
+          <Function>
+          </Function>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp"><![CDATA[
+			private RelayCommand _$property$;
+			public RelayCommand $property$ {
+				get { return _$property$ ?? (_$property$ = new RelayCommand(
+                  async () =>
+                  {
+
+                      try
+                      {
+                            LoadingCounter++;
+
+
+                      }
+                      catch (Exception e)
+                      {
+
+                          await _messageBoxService.ShowAsync("", "");
+                      }
+                      finally
+                      {
+                          LoadingCounter--;
+                      }
+
+
+
+                  }));}
+
+			}
+			$end$]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

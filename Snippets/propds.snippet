@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+    <CodeSnippet Format="1.0.0">
+        <Header>
+            <SnippetTypes>
+                <SnippetType>Expansion</SnippetType>
+            </SnippetTypes>
+            <Title>Define a DependencyProperty for Silverlight application</Title>
+            <Shortcut>propds</Shortcut>
+            <Description>
+                Code snippet for a property using DependencyProperty as the backing store and a Handler for the DependencyPropertyChanged event
+            </Description>
+            <Author>Fons Sonnemans</Author>
+        </Header>
+        <Snippet>
+            <Declarations>
+                <Literal Editable="true">
+                    <ID>type</ID>
+                    <ToolTip>Property Type</ToolTip>
+                    <Default>object</Default>
+                </Literal>
+                <Literal Editable="true">
+                    <ID>property</ID>
+                    <ToolTip>Property Name</ToolTip>
+                    <Default>MyProperty</Default>
+                </Literal>
+		<Literal>
+                    <ID>defaultvalue</ID>
+                    <ToolTip>The default value for this property.</ToolTip>
+                    <Default>null</Default>
+                </Literal>
+                <Literal Editable="false">
+                    <ID>ownerclass</ID>
+                    <ToolTip>
+                        The owning class of this Property. Typically the class that it is declared in.
+                    </ToolTip>
+                    <Default>ClassNamePlaceholder</Default>
+                    <Function>ClassName()</Function>
+                </Literal>
+            </Declarations>
+            <Code Language="csharp">
+                <![CDATA[
+#region $property$ Dependency Property
+
+/// <summary> 
+/// Get or Sets the $property$ dependency property.  
+/// </summary> 
+public $type$ $property$ 
+{ 
+    get { return ($type$)GetValue($property$Property); } 
+    set { SetValue($property$Property, value); } 
+} 
+
+/// <summary> 
+/// Identifies the $property$ dependency property. This enables animation, styling, binding, etc...
+/// </summary> 
+public static readonly DependencyProperty $property$Property = 
+    DependencyProperty.Register("$property$", 
+                                typeof($type$), 
+                                typeof($ownerclass$), 
+                                new PropertyMetadata($defaultvalue$, On$property$PropertyChanged)); 
+
+/// <summary>
+/// $property$ changed handler. 
+/// </summary>
+/// <param name="d">$ownerclass$ that changed its $property$.</param>
+/// <param name="e">DependencyPropertyChangedEventArgs.</param> 
+private static void On$property$PropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) 
+{ 
+  var source = d as $ownerclass$; 
+  if (source != null) 
+  { 
+     var value = ($type$)e.NewValue;
+     //TODO: Handle new value. 
+  }
+} 
+
+#endregion $property$ Dependency Property
+$end$]]>
+            </Code>
+        </Snippet>
+    </CodeSnippet>
+</CodeSnippets>
