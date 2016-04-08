@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using Cimbalino.Toolkit.Services;
 using GalaSoft.MvvmLight.Command;
 using NearMe.Domain.Code;
 using NearMe.Domain.Interfaces;
+using NearMe.Mvvm.Models.Ui;
 using INavigationService = GalaSoft.MvvmLight.Views.INavigationService;
 
 //using INavigationService = Cimbalino.Toolkit.Services.INavigationService;
@@ -12,6 +14,35 @@ namespace NearMe.Mvvm.ViewModels
 {
     public class Home : BaseVm, IViewModelPages
     {
+
+        private Models.Ui.Poi _item;
+        public Models.Ui.Poi Item
+        {
+            get { return this._item; }
+            set
+            {
+                if (_item != value)
+                {
+                    _item = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+
+        private ObservableCollection<Models.Ui.Poi  > _items = new ObservableCollection<Poi>();
+        public ObservableCollection<Models.Ui.Poi> Items
+        {
+            get { return this._items; }
+            set
+            {
+                if (_items != value)
+                {
+                    _items = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
 
 
 
@@ -55,12 +86,12 @@ namespace NearMe.Mvvm.ViewModels
 
         }
 
-        private RelayCommand _GoToDetails;
+        private RelayCommand _goToDetails;
         public RelayCommand GoToDetails
         {
             get
             {
-                return _GoToDetails ?? (_GoToDetails = new RelayCommand(
+                return _goToDetails ?? (_goToDetails = new RelayCommand(
             async () =>
             {
 

@@ -1,13 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NearMe.Mvvm.Models.Ui
+﻿namespace NearMe.Mvvm.Models.Ui
 {
    public class Poi:ModelBase
     {
+        private string _longitude;
+        public string Longitude
+        {
+            get { return this._longitude; }
+            set
+            {
+                if (_longitude != value)
+                {
+                    _longitude = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+
+
         private string _latitude;
         public string Latitude
         {
@@ -31,6 +41,21 @@ namespace NearMe.Mvvm.Models.Ui
                 if (_name != value)
                 {
                     _name = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+
+        private string _email;
+        public string Email
+        {
+            get { return this._email; }
+            set
+            {
+                if (_email != value)
+                {
+                    _email = value;
                     NotifyPropertyChanged();
                 }
             }
