@@ -41,6 +41,7 @@
     <Compile Include="ViewModels\About.cs" />
     <Compile Include="ViewModels\BaseVM.cs" />
     <Compile Include="ViewModels\BaseWithProgress.cs" />
+    <Compile Include="ViewModels\Details.cs" />
     <Compile Include="ViewModels\Home.cs" />
     <Compile Include="ViewModels\IViewModelPages.cs" />
   </ItemGroup>

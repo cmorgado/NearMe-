@@ -1,6 +1,7 @@
 ﻿using System;
 using Cimbalino.Toolkit.Services;
 using GalaSoft.MvvmLight.Command;
+using NearMe.Domain.Code;
 using NearMe.Domain.Interfaces;
 using INavigationService = GalaSoft.MvvmLight.Views.INavigationService;
 
@@ -15,13 +16,14 @@ namespace NearMe.Mvvm.ViewModels
 
 
 
-        private RelayCommand _load;
+
 
         public Home(INavigationService navigation, IPlatform platform, IMessageBoxService messageBoxService)
             : base(navigation, platform, messageBoxService)
         {
         }
 
+        private RelayCommand _load;
         public RelayCommand Load
         {
             get
@@ -34,7 +36,7 @@ namespace NearMe.Mvvm.ViewModels
                         {
                             LoadingCounter++;
 
-
+                            await MessageBoxService.ShowAsync("Olá Mundo", "CAPTION");
                         }
                         catch (Exception e)
                         {
@@ -53,6 +55,37 @@ namespace NearMe.Mvvm.ViewModels
 
         }
 
+        private RelayCommand _GoToDetails;
+        public RelayCommand GoToDetails
+        {
+            get
+            {
+                return _GoToDetails ?? (_GoToDetails = new RelayCommand(
+            async () =>
+            {
+
+                try
+                {
+                    LoadingCounter++;
+                    NavigationService.NavigateTo(Domain.Code.PagesDefinitions.Details.ConvertToString());
+
+                }
+                catch (Exception e)
+                {
+
+                    await MessageBoxService.ShowAsync("", "");
+                }
+                finally
+                {
+                    LoadingCounter--;
+                }
+
+
+
+            }));
+            }
+
+        }
 
 
     }

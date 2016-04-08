@@ -10,7 +10,8 @@ namespace NearMe.Domain.Code
     public enum PagesDefinitions
     {
         HomePage,
-        About
+        About,
+        Details
     }
     public static class Constants
     {

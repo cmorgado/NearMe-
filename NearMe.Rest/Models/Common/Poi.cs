@@ -1,4 +1,4 @@
-﻿namespace NearMe.Rest.Models.Output
+﻿namespace NearMe.Rest.Models.Common
 {
    public class Poi
     {

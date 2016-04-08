@@ -2,11 +2,8 @@
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
 using NearMe.Domain.Interfaces;
-using NearMe.Mvvm.ViewModels;
 using NearMe.Services;
-using GalaSoft.MvvmLight;
 using NearMe.Domain.Code;
-using NearMe.Views;
 
 
 namespace NearMe.ViewModels
@@ -30,16 +27,20 @@ namespace NearMe.ViewModels
             GalaSoft.MvvmLight.Views.NavigationService mvvmLightNavigationService = new GalaSoft.MvvmLight.Views.NavigationService();
             mvvmLightNavigationService.Configure(PagesDefinitions.HomePage.ConvertToString(), typeof(Views.Home));
             mvvmLightNavigationService.Configure(PagesDefinitions.About.ConvertToString(), typeof(Views.About));
+            mvvmLightNavigationService.Configure(PagesDefinitions.Details.ConvertToString(), typeof(Views.Details));
             SimpleIoc.Default.Register<GalaSoft.MvvmLight.Views.INavigationService>(() => mvvmLightNavigationService);
 
             SimpleIoc.Default.Register<Mvvm.ViewModels.Home>();
             SimpleIoc.Default.Register<Mvvm.ViewModels.About>();
+            SimpleIoc.Default.Register<Mvvm.ViewModels.Details>();
 
         }
 
 
         public Mvvm.ViewModels.Home Home => ServiceLocator.Current.GetInstance<Mvvm.ViewModels.Home>();
         public Mvvm.ViewModels.About About => ServiceLocator.Current.GetInstance<Mvvm.ViewModels.About>();
+
+        public Mvvm.ViewModels.Details Details => ServiceLocator.Current.GetInstance<Mvvm.ViewModels.Details>();
 
     }
 }

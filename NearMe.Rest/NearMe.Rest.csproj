@@ -35,7 +35,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Models\ErrorMessage.cs" />
-    <Compile Include="Models\Output\Poi.cs" />
+    <Compile Include="Models\Common\Poi.cs" />
     <Compile Include="Models\RestResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\ServiceBrokerMain.cs" />
@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\Input\" />
+    <Folder Include="Models\Output\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NearMe.Domain\NearMe.Domain.csproj">
