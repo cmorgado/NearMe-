@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using Cimbalino.Toolkit.Services;
 using GalaSoft.MvvmLight.Command;
 using NearMe.Domain.Code;
 using NearMe.Domain.Interfaces;
 using NearMe.Mvvm.Models.Ui;
+using NearMe.Rest.Service;
 using INavigationService = GalaSoft.MvvmLight.Views.INavigationService;
 
 //using INavigationService = Cimbalino.Toolkit.Services.INavigationService;
@@ -15,10 +17,10 @@ namespace NearMe.Mvvm.ViewModels
     public class Home : BaseVm, IViewModelPages
     {
 
-        private Models.Ui.Poi _item;
-        public Models.Ui.Poi Item
+        private Poi _item = new Poi();
+        public Poi Item
         {
-            get { return this._item; }
+            get { return _item; }
             set
             {
                 if (_item != value)
@@ -30,16 +32,16 @@ namespace NearMe.Mvvm.ViewModels
         }
 
 
-        private ObservableCollection<Models.Ui.Poi  > _items = new ObservableCollection<Poi>();
-        public ObservableCollection<Models.Ui.Poi> Items
+        private ObservableCollection<Poi> _items = new ObservableCollection<Poi>();
+        public ObservableCollection<Poi> Items
         {
-            get { return this._items; }
+            get { return _items; }
             set
             {
                 if (_items != value)
                 {
                     _items = value;
-                    NotifyPropertyChanged();
+                  //  NotifyPropertyChanged();
                 }
             }
         }
@@ -52,7 +54,83 @@ namespace NearMe.Mvvm.ViewModels
         public Home(INavigationService navigation, IPlatform platform, IMessageBoxService messageBoxService)
             : base(navigation, platform, messageBoxService)
         {
+            this.Item.PropertyChanged += Item_PropertyChanged;
+
         }
+
+        private void Item_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+           // NotifyPropertyChanged("Item");
+
+
+        }
+
+        private RelayCommand<Poi> _selectMe;
+        public RelayCommand<Poi> SelectMe
+        {
+            get
+            {
+                return _selectMe ?? (_selectMe = new RelayCommand<Poi>(
+            async (m) =>
+            {
+
+                try
+                {
+                    LoadingCounter++;
+                    this.Item = m;
+
+                }
+                catch (Exception e)
+                {
+
+                    await MessageBoxService.ShowAsync("", "");
+                }
+                finally
+                {
+                    LoadingCounter--;
+                }
+
+
+
+            }));
+            }
+
+        }
+
+
+        private RelayCommand _remove;
+        public RelayCommand Remove
+        {
+            get
+            {
+                return _remove ?? (_remove = new RelayCommand(
+            async () =>
+            {
+
+                try
+                {
+                    LoadingCounter++;
+                    this.Items.Remove(this.Item);
+                    this.Item= new Poi();
+
+                }
+                catch (Exception e)
+                {
+
+                    await MessageBoxService.ShowAsync("", "");
+                }
+                finally
+                {
+                    LoadingCounter--;
+                }
+
+
+
+            }));
+            }
+
+        }
+
 
         private RelayCommand _load;
         public RelayCommand Load
@@ -67,7 +145,34 @@ namespace NearMe.Mvvm.ViewModels
                         {
                             LoadingCounter++;
 
-                            await MessageBoxService.ShowAsync("Olá Mundo", "CAPTION");
+                          await  Task.Delay(3000);
+                            ServiceBroker broker = new ServiceBroker();
+
+                            var csv = await broker.GetPois();
+
+
+                            if (!csv.Error.HasError)
+                            {
+                                var linhas = csv.Raw.Split('\n');
+                                foreach (var linha in linhas)
+                                {
+                                    _items.Add(new Poi
+                                    {
+                                        Name = linha.Split(',')[1]
+                                        ,
+                                        Email = linha.Split(',')[5]
+                                    });
+                                }
+                                ;
+                                ;
+                            }
+                            else
+                            {
+                                await MessageBoxService.ShowAsync("Error a carregar os pois via REST", "CAPTION");
+
+                            }
+
+                            //await MessageBoxService.ShowAsync("Olá Mundo", "CAPTION");
                         }
                         catch (Exception e)
                         {
@@ -98,7 +203,7 @@ namespace NearMe.Mvvm.ViewModels
                 try
                 {
                     LoadingCounter++;
-                    NavigationService.NavigateTo(Domain.Code.PagesDefinitions.Details.ConvertToString());
+                    NavigationService.NavigateTo(PagesDefinitions.Details.ConvertToString());
 
                 }
                 catch (Exception e)

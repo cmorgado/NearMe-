@@ -20,15 +20,18 @@ namespace NearMe.ViewModels
             SimpleIoc.Default.Register<IMessageBoxService, MessageBoxService>();
             SimpleIoc.Default.Register<IPlatform, Platform>();
 
-            Cimbalino.Toolkit.Services.NavigationService cimbalinoNavigationService = new NavigationService();
+            NavigationService cimbalinoNavigationService = new NavigationService();
 
-            SimpleIoc.Default.Register<Cimbalino.Toolkit.Services.INavigationService>(() => cimbalinoNavigationService);
+            SimpleIoc.Default.Register<INavigationService>(() => cimbalinoNavigationService);
 
             GalaSoft.MvvmLight.Views.NavigationService mvvmLightNavigationService = new GalaSoft.MvvmLight.Views.NavigationService();
             mvvmLightNavigationService.Configure(PagesDefinitions.HomePage.ConvertToString(), typeof(Views.Home));
             mvvmLightNavigationService.Configure(PagesDefinitions.About.ConvertToString(), typeof(Views.About));
             mvvmLightNavigationService.Configure(PagesDefinitions.Details.ConvertToString(), typeof(Views.Details));
             SimpleIoc.Default.Register<GalaSoft.MvvmLight.Views.INavigationService>(() => mvvmLightNavigationService);
+
+           SimpleIoc.Default.Register<IStorageServiceHandler, StorageServiceHandler>();
+            SimpleIoc.Default.Register<IStorageService, StorageService>();
 
             SimpleIoc.Default.Register<Mvvm.ViewModels.Home>();
             SimpleIoc.Default.Register<Mvvm.ViewModels.About>();
