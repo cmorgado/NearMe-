@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.Devices.Geolocation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -22,9 +23,29 @@ namespace NearMe.Views
     /// </summary>
     public sealed partial class Home : Page
     {
+        private Mvvm.ViewModels.Home vm;
         public Home()
         {
             this.InitializeComponent();
+
+            vm = DataContext as Mvvm.ViewModels.Home;
+
+            vm.PropertyChanged += Item_PropertyChanged;
+
+        }
+
+        private void Item_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName !="Item") return;
+
+            MyMapControl.Center = new Geopoint(
+                new BasicGeoposition
+                {
+                    Latitude = vm.Item.Center.Latitude
+                    ,
+                    Longitude = vm.Item.Center.Longitude
+                });
+
         }
     }
 }

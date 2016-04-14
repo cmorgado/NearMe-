@@ -16,8 +16,11 @@ namespace NearMe.Mvvm.ViewModels
 {
     public class Home : BaseVm, IViewModelPages
     {
+        public string BingKey { get; set; } =
+            ""
+            ;
+        private Poi _item = new Poi { Center = new PoiPoint { Latitude = 41.178039, Longitude = -8.608079 } };
 
-        private Poi _item = new Poi();
         public Poi Item
         {
             get { return _item; }
@@ -156,14 +159,25 @@ namespace NearMe.Mvvm.ViewModels
                                 var linhas = csv.Raw.Split('\n');
                                 foreach (var linha in linhas)
                                 {
-                                    _items.Add(new Poi
+                                    var p = new Poi
                                     {
                                         Name = linha.Split(',')[1]
                                         ,
-                                        Email = linha.Split(',')[5]
-                                    });
+                                        Email = linha.Split(',')[5],
+                                        Center =
+                                        {
+                                            Latitude = double.Parse(linha.Split(',')[2]),
+                                            Longitude = double.Parse(linha.Split(',')[3])
+                                        }
+                                    };
+
+
+
+                                    Items.Add(p);
                                 }
                                 ;
+                                Item = Items[0];
+
                                 ;
                             }
                             else

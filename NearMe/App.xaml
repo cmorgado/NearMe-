@@ -3,9 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:cimbalinoConverters="using:Cimbalino.Toolkit.Converters"
              xmlns:local="using:NearMe"
+             xmlns:ourConverters="using:NearMe.Code.Converters"
              RequestedTheme="Light">
     <Application.Resources>
         <ResourceDictionary>
+            <ourConverters:GeoPointConverter x:Key="GeoPointConverter" />
             <vm:ViewModelLocator xmlns:vm="using:NearMe.ViewModels" x:Key="Locator" />
 
             <cimbalinoConverters:BooleanToBrushConverter x:Key="BooleanToBrushConverter" />

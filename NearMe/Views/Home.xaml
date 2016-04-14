@@ -5,9 +5,10 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
       xmlns:local="using:NearMe.Views"
+      xmlns:maps="using:Windows.UI.Xaml.Controls.Maps"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:xamltoolkit="using:WinRTXamlToolkit.Controls.Extensions"
-      Name="pageRoot"
+      x:Name="pageRoot"
       DataContext="{Binding Home,
                             Source={StaticResource Locator}}"
       mc:Ignorable="d">
@@ -18,13 +19,17 @@
     </interactivity:Interaction.Behaviors>
     <Grid>
         <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*" />
                 <ColumnDefinition Width="1*" />
 
             </Grid.ColumnDefinitions>
 
-            <ListView ItemsSource="{Binding Items}">
+            <ListView Grid.RowSpan="2" ItemsSource="{Binding Items}">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -49,21 +54,51 @@
             </ListView>
 
 
-            <StackPanel Grid.Column="1">
+            <StackPanel Grid.Row="0" Grid.Column="1">
                 <TextBox Header="Name" Text="{Binding Item.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding Item.Center.Latitude}" />
+                    <TextBlock Text="{Binding Item.Center.Longitude}" />
+                </StackPanel>
                 <Button Command="{Binding Remove}" Content="REMOVE" />
             </StackPanel>
 
+            <maps:MapControl Name="MyMapControl"
+                             Grid.Row="1"
+                             Grid.Column="1"
+                             HorizontalAlignment="Stretch"
+                             VerticalAlignment="Stretch"
+                             Center="{Binding Item,
+                                              Converter={StaticResource GeoPointConverter}}"
+                             MapServiceToken="{Binding BingKey}"
+                             Style="Aerial3DWithRoads"
+                             ZoomLevel="12">
+                <maps:MapItemsControl ItemsSource="{Binding Items}">
+                    <maps:MapItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Background="Bisque">
+                                <TextBlock Margin="5"
+                                           FontSize="20"
+                                           Foreground="Black"
+                                           Text="{Binding Name}"
+                                           maps:MapControl.Location="{Binding Center,
+                                                                              Converter={StaticResource GeoPointConverter}}"
+                                           maps:MapControl.NormalizedAnchorPoint="0.5,0.5" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </maps:MapItemsControl.ItemTemplate>
+                </maps:MapItemsControl>
+            </maps:MapControl>
+
         </Grid>
         <ProgressRing Grid.Column="0"
-    		Width="200"
-    		Height="200"
+                      Width="200"
+                      Height="200"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center"
                       IsActive="{Binding IsLoading}"
-                      Visibility="{Binding IsLoading , Converter={StaticResource BooleanToVisibilityConverter}}"
-    		HorizontalAlignment="Center"
-    		VerticalAlignment="Center"
-    		 />
+                      Visibility="{Binding IsLoading,
+                                           Converter={StaticResource BooleanToVisibilityConverter}}" />
     </Grid>
 </Page>
 
